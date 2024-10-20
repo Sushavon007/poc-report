@@ -32,9 +32,10 @@ function generateAccountCreationMessage(name, email, password) {
     <p>Your account has been successfully created. Here are your details:</p>
     <p><strong>Email:</strong> ${email}</p>
     <p><strong>Password:</strong> ${password}</p>
-    <p>You can change this password after logging in.</p>
+    <p>To change password <a href="http://localhost:8999/updatepassword">click here</a></p>
   `;
   return { message, messageHTML };
 }
 
 module.exports = { sendEmail, generateAccountCreationMessage };
+

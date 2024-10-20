@@ -7,7 +7,11 @@ const userSchema = new mongoose.Schema({
   department: { type: String, required: true },
   college: { type: String, required: true },
   role: { type: String, required: true },
-  contentAccess: { type: String, enum: ['all', 'view', 'edit'], default: 'view', required: true },
+  contentAccess: {
+    type: String,
+    enum: ["super", "view", "edit"],
+    default: "view",
+  },
 });
 
 const User = mongoose.model("User", userSchema);
