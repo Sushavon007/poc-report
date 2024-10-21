@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   department: { type: String, required: true },
   college: { type: String, required: true },
   role: { type: String, required: true },
+  totalMarks: { type: Number, default: 0 },
   contentAccess: {
     type: String,
     enum: ["super", "view", "edit"],

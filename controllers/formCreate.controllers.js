@@ -40,8 +40,6 @@ exports.create_projectProposal = expressAsyncHandler(async (req, res) => {
       dateOfGranting,
       status,
       poc,
-      createdBy,
-      isApproved,
     } = req.body;
 
     const newProject = new ProjectProposal({
@@ -52,13 +50,14 @@ exports.create_projectProposal = expressAsyncHandler(async (req, res) => {
         : undefined,
       amountGrant: amountGrant ? striptags(amountGrant) : undefined,
       dateOfSubmission: dateOfSubmission
-        ? striptags(dateOfSubmission)
+        ? new Date(dateOfSubmission)
         : undefined,
-      dateOfGranting: dateOfGranting ? striptags(dateOfGranting) : undefined,
+      dateOfGranting: dateOfGranting ? new Date(dateOfGranting) : undefined,
       status: status ? striptags(status) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newProject.save();
 
@@ -87,8 +86,6 @@ exports.create_bookPublished = expressAsyncHandler(async (req, res) => {
       publisherName,
       designation,
       poc,
-      createdBy,
-      isApproved,
     } = req.body;
 
     const newBook = new BookPublished({
@@ -98,12 +95,13 @@ exports.create_bookPublished = expressAsyncHandler(async (req, res) => {
       month: month ? striptags(month) : undefined,
       year: year ? striptags(year) : undefined,
       scopes: scopes ? striptags(scopes) : undefined,
-      scopes: scopes ? striptags(ugcCare) : undefined,
+      ugcCare: ugcCare ? striptags(ugcCare) : undefined,
       publisherName: publisherName ? striptags(publisherName) : undefined,
       designation: designation ? striptags(designation) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newBook.save();
 
@@ -136,8 +134,6 @@ exports.create_researchPaper = expressAsyncHandler(async (req, res) => {
       grade,
       designation,
       poc,
-      createdBy,
-      isApproved,
     } = req.body;
 
     const newPaper = new ResearchPaper({
@@ -155,8 +151,9 @@ exports.create_researchPaper = expressAsyncHandler(async (req, res) => {
       grade: grade ? striptags(grade) : undefined,
       designation: designation ? striptags(designation) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newPaper.save();
 
@@ -178,22 +175,23 @@ exports.create_patentFilled = expressAsyncHandler(async (req, res) => {
       department,
       name,
       designation,
-      patentInfo,
+      topicName,
+      dateOfFilling,
       type,
       poc,
-      createdBy,
-      isApproved,
     } = req.body;
 
     const newPatent = new PatentFilled({
       department: department ? striptags(department) : undefined,
       name: name ? striptags(name) : undefined,
       designation: designation ? striptags(designation) : undefined,
-      patentInfo: patentInfo ? striptags(patentInfo) : undefined,
+      topicName: topicName ? striptags(topicName) : undefined,
+      dateOfFilling: dateOfFilling ? new Date(dateOfFilling) : undefined,
       type: type ? striptags(type) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newPatent.save();
 
@@ -211,16 +209,7 @@ exports.create_mdpAttended = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const {
-      organizedBy,
-      date,
-      topic,
-      attendedBy,
-      department,
-      poc,
-      createdBy,
-      isApproved,
-    } = req.body;
+    const { organizedBy, date, topic, attendedBy, department, poc } = req.body;
 
     const newEvent = new MDPAttended({
       organizedBy: organizedBy ? striptags(organizedBy) : undefined,
@@ -229,8 +218,9 @@ exports.create_mdpAttended = expressAsyncHandler(async (req, res) => {
       attendedBy: attendedBy ? striptags(attendedBy) : undefined,
       department: department ? striptags(department) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newEvent.save();
 
@@ -248,8 +238,7 @@ exports.create_mdpConducted = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const { date, department, topic, conductedBy, poc, createdBy, isApproved } =
-      req.body;
+    const { date, department, topic, conductedBy, poc } = req.body;
 
     const newEvent = new MDPConducted({
       date: date ? new Date(date) : undefined,
@@ -257,8 +246,9 @@ exports.create_mdpConducted = expressAsyncHandler(async (req, res) => {
       topic: topic ? striptags(topic) : undefined,
       conductedBy: conductedBy ? striptags(conductedBy) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newEvent.save();
 
@@ -276,30 +266,20 @@ exports.create_competitionOrganised = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const {
-      eventDate,
-      competitionType,
-      competitionName,
-      poc,
-      createdBy,
-      isApproved,
-    } = req.body;
+    const { eventDate, competitionType, competitionName, poc } = req.body;
 
     const newCompetition = new CompetitionOrganised({
       eventDate: eventDate ? new Date(eventDate) : undefined,
       competitionType: competitionType ? striptags(competitionType) : undefined,
       competitionName: competitionName ? striptags(competitionName) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newCompetition.save();
 
-    sendSuccess(
-      res,
-      constants.CREATED,
-      "Competition added successfully"
-    );
+    sendSuccess(res, constants.CREATED, "Competition added successfully");
   } catch (error) {
     sendServerError(res, error);
   }
@@ -321,8 +301,6 @@ exports.create_event = expressAsyncHandler(async (req, res) => {
       type,
       eventType,
       poc,
-      createdBy,
-      isApproved,
     } = req.body;
 
     const newEvent = new Event({
@@ -335,8 +313,9 @@ exports.create_event = expressAsyncHandler(async (req, res) => {
       type: type ? striptags(type) : undefined,
       eventType: eventType ? striptags(eventType) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newEvent.save();
 
@@ -354,16 +333,17 @@ exports.create_lecture = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const { speaker, date, topic, attendedBy, poc, createdBy, isApproved } = req.body;
+    const { name, date, topic, attendedBy, poc } = req.body;
 
     const newLecture = new Lecture({
-      speaker: speaker ? striptags(speaker) : undefined,
+      name: name ? striptags(name) : undefined,
       date: date ? new Date(date) : undefined,
       topic: topic ? striptags(topic) : undefined,
       attendedBy: attendedBy ? striptags(attendedBy) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newLecture.save();
 
@@ -381,15 +361,7 @@ exports.create_industrialTour = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const {
-      organizedBy,
-      date,
-      industryName,
-      attendedBy,
-      poc,
-      createdBy,
-      isApproved,
-    } = req.body;
+    const { organizedBy, date, industryName, attendedBy, poc } = req.body;
 
     const newTour = new IndustrialTour({
       organizedBy: organizedBy ? striptags(organizedBy) : undefined,
@@ -397,8 +369,9 @@ exports.create_industrialTour = expressAsyncHandler(async (req, res) => {
       industryName: industryName ? striptags(industryName) : undefined,
       attendedBy: attendedBy ? striptags(attendedBy) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newTour.save();
 
@@ -416,16 +389,18 @@ exports.create_hackathon = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const { hackathonName, date, noOfParticipants, poc, createdBy, isApproved } =
-      req.body;
+    const { eventName, date, noOfParticipants, poc } = req.body;
 
     const newHackathon = new Hackathon({
-      hackathonName: hackathonName ? striptags(hackathonName) : undefined,
-      date: date ? striptags(date) : undefined,
-      noOfParticipants: noOfParticipants ? striptags(noOfParticipants) : undefined,
+      eventName: eventName ? striptags(eventName) : undefined,
+      date: date ? new Date(date) : undefined,
+      noOfParticipants: noOfParticipants
+        ? striptags(noOfParticipants)
+        : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newHackathon.save();
 
@@ -443,18 +418,29 @@ exports.create_consultancy = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const { orderNo, facultyName, companyName, orderAmount, orderReceiveDate, status, poc, createdBy, isApproved } = req.body;
+    const {
+      orderNo,
+      facultyName,
+      companyName,
+      orderAmount,
+      orderReceiveDate,
+      status,
+      poc,
+    } = req.body;
 
     const newConsultancy = new Consultancy({
       orderNo: orderNo ? striptags(orderNo) : undefined,
       facultyName: facultyName ? striptags(facultyName) : undefined,
       companyName: companyName ? striptags(companyName) : undefined,
       orderAmount: orderAmount ? striptags(orderAmount) : undefined,
-      orderReceiveDate: orderReceiveDate ? striptags(orderReceiveDate) : undefined,
+      orderReceiveDate: orderReceiveDate
+        ? new Date(orderReceiveDate)
+        : undefined,
       status: status ? striptags(status) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newConsultancy.save();
 
@@ -472,19 +458,29 @@ exports.create_moocs = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const { facultyName, moduleName, platformUsed, dateOfLaunching, documentLink, eContent, mediaLink, poc, createdBy, isApproved } = req.body;
+    const {
+      facultyName,
+      moduleName,
+      platformUsed,
+      dateOfLaunching,
+      documentLink,
+      eContent,
+      mediaLink,
+      poc,
+    } = req.body;
 
     const newMOOCS = new MOOCS({
       facultyName: facultyName ? striptags(facultyName) : undefined,
       moduleName: moduleName ? striptags(moduleName) : undefined,
       platformUsed: platformUsed ? striptags(platformUsed) : undefined,
-      dateOfLaunching: dateOfLaunching ? striptags(dateOfLaunching) : undefined,
+      dateOfLaunching: dateOfLaunching ? new Date(dateOfLaunching) : undefined,
       documentLink: documentLink ? striptags(documentLink) : undefined,
       eContent: eContent ? striptags(eContent) : undefined,
       mediaLink: mediaLink ? striptags(mediaLink) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newMOOCS.save();
 
@@ -502,17 +498,23 @@ exports.create_triMentoring = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const { organizedBy, date, takenBy, attendedBy, poc, createdBy, isApproved } =
-      req.body;
+    const {
+      organizedBy,
+      date,
+      takenBy,
+      attendedBy,
+      poc,
+    } = req.body;
 
     const newMentoring = new TriMentoring({
       organizedBy: organizedBy ? striptags(organizedBy) : undefined,
-      date: date ? striptags(date) : undefined,
+      date: date ? new Date(date) : undefined,
       takenBy: takenBy ? striptags(takenBy) : undefined,
       attendedBy: attendedBy ? striptags(attendedBy) : undefined,
       poc: poc ? striptags(poc) : undefined,
-      createdBy: createdBy ? createdBy : undefined,
-      isApproved: typeof isApproved !== "undefined" ? isApproved : false,
+      obtainedMarks: 0,
+      createdBy: loggedInUser.id,
+      isApproved: false,
     });
     await newMentoring.save();
 

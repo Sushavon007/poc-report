@@ -6,6 +6,7 @@ const facultyDevelopmentProgrammesConducted = new mongoose.Schema({
   topic: { type: String },
   conductedBy: { type: String },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

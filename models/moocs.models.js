@@ -9,6 +9,7 @@ const moocs = new mongoose.Schema({
   eContent: { type: String },
   mediaLink: { type: String },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

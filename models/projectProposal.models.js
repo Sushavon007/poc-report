@@ -13,6 +13,7 @@ const projectProposal = new mongoose.Schema({
     default: "applied",
   },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

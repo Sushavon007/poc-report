@@ -6,6 +6,7 @@ const triMentoringSystem = new mongoose.Schema({
   takenBy: { type: String },
   attendedBy: { type: String },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -31,7 +31,7 @@ exports.approve_projectProposal = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const projectProposal = await ProjectProposal.findById(id);
   
@@ -59,12 +59,12 @@ exports.approve_bookPublished = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const bookPublished = await BookPublished.findById(id);
   
         if (!bookPublished) {
-          return sendError(res, constants.NOT_FOUND, "Book not found");
+          return sendError(res, constants.NOT_FOUND, "Book published not found");
         }
   
         bookPublished.isApproved = true;
@@ -87,7 +87,7 @@ exports.approve_researchPaper = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const researchPaper = await ResearchPaper.findById(id);
   
@@ -115,7 +115,7 @@ exports.approve_patentFilled = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const patentFilled = await PatentFilled.findById(id);
   
@@ -143,7 +143,7 @@ exports.approve_mdpAttended = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const mdpAttended = await MDPAttended.findById(id);
   
@@ -171,7 +171,7 @@ exports.approve_mdpConducted = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const mdpConducted = await MDPConducted.findById(id);
   
@@ -199,7 +199,7 @@ exports.approve_competitionOrganised = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const competitionOrganised = await CompetitionOrganised.findById(id);
   
@@ -227,7 +227,7 @@ exports.approve_event = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const event = await Event.findById(id);
   
@@ -255,7 +255,7 @@ exports.approve_lecture = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const lecture = await Lecture.findById(id);
   
@@ -283,7 +283,7 @@ exports.approve_industrialTour = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const industrialTour = await IndustrialTour.findById(id);
   
@@ -311,7 +311,7 @@ exports.approve_hackathon = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const hackathon = await Hackathon.findById(id);
   
@@ -339,7 +339,7 @@ exports.approve_consultancy = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params; 
         const consultancy = await Consultancy.findById(id);
   
@@ -367,7 +367,7 @@ exports.approve_moocs = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const moocs = await MOOCS.findById(id);
   
@@ -395,7 +395,7 @@ exports.approve_triMentoring = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "edit" || "super") {
+    if (loggedInUser.contentAccess == "edit" || "super") {
         const { id } = req.params;
         const triMentoring = await TriMentoring.findById(id);
   

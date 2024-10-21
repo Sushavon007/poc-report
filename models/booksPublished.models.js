@@ -11,6 +11,7 @@ const bookPublished = new mongoose.Schema({
   publisherName: { type: String },
   designation: { type: String, enum: ["student", "faculty"] },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

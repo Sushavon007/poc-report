@@ -8,6 +8,7 @@ const event = new mongoose.Schema({
   type: { type: String, enum: ["attended", "organized"] },
   eventType: { type: String, enum: ["seminer", "conference", "workshop"] },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

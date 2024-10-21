@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 
 const hackathon = new mongoose.Schema({
-  name: { type: String },
+  eventName: { type: String },
   date: { type: Date },
   noOfParticipants: { type: Number },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

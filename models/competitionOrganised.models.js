@@ -5,6 +5,7 @@ const competitionOrganised = new mongoose.Schema({
   competitionType: { type: String },
   competitionName: { type: String },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

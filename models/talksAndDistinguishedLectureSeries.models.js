@@ -6,6 +6,7 @@ const lecture = new mongoose.Schema({
   topic: { type: String },
   AttendedBy: { type: String },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

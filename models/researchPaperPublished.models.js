@@ -21,6 +21,7 @@ const researchPaperPublished = new mongoose.Schema({
   grade: { type: String, enum: ["A", "B", "C"] },
   designation: { type: String, enum: ["student", "faculty"] },
   poc: { type: String },
+  obtainedMarks: { type: Number },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
