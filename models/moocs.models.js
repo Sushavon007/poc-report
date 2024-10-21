@@ -9,6 +9,14 @@ const moocs = new mongoose.Schema({
   eContent: { type: String },
   mediaLink: { type: String },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const MOOCS = mongoose.model("Moocs", moocs);

@@ -13,10 +13,12 @@ const {
   generateAccountCreationMessage,
 } = require("../utils/mailer.utils.js");
 
+const OTP = "";
+
 const generateAccessToken = async (userId, email, role) => {
   return jwt.sign(
     { id: userId, userEmail: email, role: role },
-    process.env.ACCESS_TOKEN_SECRET,
+    process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
 };
@@ -31,6 +33,68 @@ function generateRandomPassword(length = 10) {
   }
   return password;
 }
+
+exports.getotp = expressAsyncHandler(async (req, res) => {
+  try {
+    const { email, type } = req.body;
+
+    const existingUser = await user.findOne({ email });
+
+    if (type === "register" && existingUser) {
+      return sendError(
+        res,
+        constants.CONFLICT,
+        "User with this email already exists"
+      );
+    } else if (type === "forgetPassword" && !existingUser) {
+      return sendError(res, constants.NOT_FOUND, "User not registered");
+    }
+
+    OTP = Math.floor(1000 + Math.random() * 9000).toString();
+
+    let message, messageHTML;
+
+    if (type === "register") {
+      message = `To create your account, please use this OTP: ${OTP}`;
+      messageHTML = `
+        <p>To create your account, use this OTP:</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>OTP:</strong> ${OTP}</p>
+      `;
+    } else if (type === "forgetPassword") {
+      message = `To reset your password, please use this OTP: ${OTP}`;
+      messageHTML = `
+        <p>To reset your password, use this OTP:</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>OTP:</strong> ${OTP}</p>
+      `;
+    }
+
+    await sendEmail(email, "OTP Verification", message, messageHTML);
+
+    sendSuccess(res, constants.OK, "OTP sent to your email");
+  } catch (error) {
+    sendServerError(res, error);
+  }
+});
+
+exports.verify = expressAsyncHandler(async (req, res) => {
+  try {
+    const { email, getOTP } = req.body;
+
+    if (!OTP) {
+      return sendError(res, constants.NOT_FOUND, "No OTP found for this email");
+    }
+
+    if (getOTP !== OTP) {
+      return sendError(res, constants.VALIDATION_ERROR, "OTP mismatch");
+    }
+
+    sendSuccess(res, constants.ACCEPTED, "OTP matched");
+  } catch (error) {
+    sendServerError(res, error);
+  }
+});
 
 exports.login = expressAsyncHandler(async (req, res) => {
   try {
@@ -55,7 +119,9 @@ exports.login = expressAsyncHandler(async (req, res) => {
       existingUser.userEmail,
       existingUser.role
     );
-    res.set("Authorization", `Bearer ${accessToken}`);
+    res
+      .set("Authorization", `Bearer ${accessToken}`)
+      .cookie("sid", accessToken);
 
     sendSuccess(res, constants.OK, "User logged in", {
       token: accessToken,
@@ -101,7 +167,7 @@ exports.updatePassword = expressAsyncHandler(async (req, res) => {
     const loggedInUser = await user.findById(req.user?.id);
 
     if (!loggedInUser) {
-      return sendError(res, constants.NOT_FOUND, "User not found");
+      return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
     const isPasswordCorrect = await bcrypt.compare(
@@ -186,5 +252,3 @@ exports.adduser = expressAsyncHandler(async (req, res) => {
     sendError(res, constants.INTERNAL_SERVER_ERROR, "Error while adding user");
   }
 });
-
-exports.edit = expressAsyncHandler(async (req, res) => {});

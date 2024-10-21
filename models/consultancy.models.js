@@ -8,6 +8,14 @@ const consultancy = new mongoose.Schema({
   orderReceiveDate: { type: Date },
   status: { type: String, enum: ["ongoing", "completed"] },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Consultancy = mongoose.model("Consultancy", consultancy);

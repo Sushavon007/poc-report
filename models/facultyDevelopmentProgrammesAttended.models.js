@@ -7,6 +7,14 @@ const facultyDevelopmentProgrammesAttended = new mongoose.Schema({
   attendedBy: { type: String },
   department: { type: String },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const FacultyDevelopmentProgrammesAttended = mongoose.model("FacultyDevelopmentProgrammesAttended", facultyDevelopmentProgrammesAttended);

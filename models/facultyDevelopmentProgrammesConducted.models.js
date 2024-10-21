@@ -6,6 +6,14 @@ const facultyDevelopmentProgrammesConducted = new mongoose.Schema({
   topic: { type: String },
   conductedBy: { type: String },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const FacultyDevelopmentProgrammesConducted = mongoose.model("FacultyDevelopmentProgrammesConducted", facultyDevelopmentProgrammesConducted);

@@ -5,6 +5,14 @@ const hackathon = new mongoose.Schema({
   date: { type: Date },
   noOfParticipants: { type: Number },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Hackathon = mongoose.model("Hackathon", hackathon);

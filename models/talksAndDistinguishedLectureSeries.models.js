@@ -6,6 +6,14 @@ const lecture = new mongoose.Schema({
   topic: { type: String },
   AttendedBy: { type: String },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Lecture = mongoose.model("Lecture", lecture);

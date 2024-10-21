@@ -7,6 +7,14 @@ const patentFilled = new mongoose.Schema({
   patentInfo: { type: String },
   type: { type: String, enum: ["National", "International"] },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const PatentFilled = mongoose.model("PatentFilled", patentFilled);

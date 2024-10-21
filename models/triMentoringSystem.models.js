@@ -6,6 +6,14 @@ const triMentoringSystem = new mongoose.Schema({
   takenBy: { type: String },
   attendedBy: { type: String },
   poc: { type: String },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const TriMentoringSystem = mongoose.model(
