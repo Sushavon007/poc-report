@@ -10,8 +10,8 @@ const userSchema = new mongoose.Schema({
   totalMarks: { type: Number, default: 0 },
   contentAccess: {
     type: String,
-    enum: ["super", "view", "edit"],
-    default: "view",
+    enum: ["super", "view", "edit", "none"],
+    default: "none",
   },
 });
 

@@ -15,6 +15,15 @@ const lecture = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  hasContentAccess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  department: {
+    type: String,
+  },
 });
 
 const Lecture = mongoose.model("Lecture", lecture);

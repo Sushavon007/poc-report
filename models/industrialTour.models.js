@@ -16,6 +16,15 @@ const industrialTour = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  hasContentAccess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  department: {
+    type: String,
+  },
 });
 
 const IndustrialTour = mongoose.model(

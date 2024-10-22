@@ -15,6 +15,15 @@ const facultyDevelopmentProgrammesConducted = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  hasContentAccess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  department: {
+    type: String,
+  },
 });
 
 const FacultyDevelopmentProgrammesConducted = mongoose.model("FacultyDevelopmentProgrammesConducted", facultyDevelopmentProgrammesConducted);

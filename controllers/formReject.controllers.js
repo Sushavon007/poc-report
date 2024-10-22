@@ -36,12 +36,19 @@ exports.delete_projectProposal = expressAsyncHandler(async (req, res) => {
       const deletedDocument = await ProjectProposal.findByIdAndDelete(id);
 
       if (!deletedDocument) {
-        return sendError(res, constants.NOT_FOUND, `Project proposal not found`);
+        return sendError(
+          res,
+          constants.NOT_FOUND,
+          `Project proposal not found`
+        );
       }
 
-      return sendSuccess(res, constants.OK, `Project proposal deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Project proposal deleted successfully`
+      );
     }
-
   } catch (error) {
     sendServerError(res, error);
   }
@@ -63,9 +70,13 @@ exports.delete_bookPublished = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `Book published not found`);
       }
 
-      return sendSuccess(res, constants.OK, `Book published deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Book published deleted successfully`
+      );
     }
-   } catch (error) {
+  } catch (error) {
     sendServerError(res, error);
   }
 });
@@ -86,9 +97,13 @@ exports.delete_researchPaper = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `Research paper not found`);
       }
 
-      return sendSuccess(res, constants.OK, `Research paper deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Research paper deleted successfully`
+      );
     }
-   } catch (error) {
+  } catch (error) {
     sendServerError(res, error);
   }
 });
@@ -109,7 +124,11 @@ exports.delete_patentFilled = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `Patent filled not found`);
       }
 
-      return sendSuccess(res, constants.OK, `Patent filled deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Patent filled deleted successfully`
+      );
     }
   } catch (error) {
     sendServerError(res, error);
@@ -132,9 +151,13 @@ exports.delete_mdpAttended = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `MDP attended not found`);
       }
 
-      return sendSuccess(res, constants.OK, `MDP attended deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `MDP attended deleted successfully`
+      );
     }
-   } catch (error) {
+  } catch (error) {
     sendServerError(res, error);
   }
 });
@@ -155,7 +178,11 @@ exports.delete_mdpConducted = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `MDP conducted not found`);
       }
 
-      return sendSuccess(res, constants.OK, `MDP conducted deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `MDP conducted deleted successfully`
+      );
     }
   } catch (error) {
     sendServerError(res, error);
@@ -175,10 +202,18 @@ exports.delete_competitionOrganised = expressAsyncHandler(async (req, res) => {
       const deletedDocument = await CompetitionOrganised.findByIdAndDelete(id);
 
       if (!deletedDocument) {
-        return sendError(res, constants.NOT_FOUND, `Competition organised not found`);
+        return sendError(
+          res,
+          constants.NOT_FOUND,
+          `Competition organised not found`
+        );
       }
 
-      return sendSuccess(res, constants.OK, `Competition organised deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Competition organised deleted successfully`
+      );
     }
   } catch (error) {
     sendServerError(res, error);
@@ -247,9 +282,13 @@ exports.delete_industrialTour = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `Industrial tour not found`);
       }
 
-      return sendSuccess(res, constants.OK, `Industrial tour deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Industrial tour deleted successfully`
+      );
     }
-    } catch (error) {
+  } catch (error) {
     sendServerError(res, error);
   }
 });
@@ -339,9 +378,12 @@ exports.delete_triMentoring = expressAsyncHandler(async (req, res) => {
         return sendError(res, constants.NOT_FOUND, `Tri-mentoring not found`);
       }
 
-      return sendSuccess(res, constants.OK, `Tri-mentoring deleted successfully`);
+      return sendSuccess(
+        res,
+        constants.OK,
+        `Tri-mentoring deleted successfully`
+      );
     }
-
   } catch (error) {
     sendServerError(res, error);
   }

@@ -15,9 +15,9 @@ const {
 
 const OTP = "";
 
-const generateAccessToken = async (userId, email, role) => {
+const generateAccessToken = async (userId, email, contentAccess, department) => {
   return jwt.sign(
-    { id: userId, userEmail: email, role: role },
+    { id: userId, userEmail: email, contentAccess: contentAccess, department: department },
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
@@ -117,7 +117,8 @@ exports.login = expressAsyncHandler(async (req, res) => {
     const accessToken = await generateAccessToken(
       existingUser._id,
       existingUser.userEmail,
-      existingUser.role
+      existingUser.contentAccess,
+      existingUser.department
     );
     res
       .set("Authorization", `Bearer ${accessToken}`)
@@ -205,7 +206,7 @@ exports.updatePassword = expressAsyncHandler(async (req, res) => {
   }
 });
 
-exports.adduser = expressAsyncHandler(async (req, res) => {
+exports.addUser = expressAsyncHandler(async (req, res) => {
   try {
     const { userEmail, userContact, department, college, role, contentAccess } =
       req.body;

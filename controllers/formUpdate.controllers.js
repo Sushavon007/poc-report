@@ -520,11 +520,7 @@ exports.update_event = expressAsyncHandler(async (req, res) => {
 
     const event = await Event.findById(id);
     if (!event) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "Event not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "Event not found");
     }
 
     if (!loggedInUser) {
@@ -586,11 +582,7 @@ exports.update_lecture = expressAsyncHandler(async (req, res) => {
 
     const lecture = await Lecture.findById(id);
     if (!lecture) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "Lecture not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "Lecture not found");
     }
 
     if (!loggedInUser) {
@@ -638,11 +630,7 @@ exports.update_industrialTour = expressAsyncHandler(async (req, res) => {
 
     const industrialTour = await IndustrialTour.findById(id);
     if (!industrialTour) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "Industrial tour not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "Industrial tour not found");
     }
 
     if (!loggedInUser) {
@@ -662,9 +650,13 @@ exports.update_industrialTour = expressAsyncHandler(async (req, res) => {
       const newTour = await IndustrialTour.findByIdAndUpdate(
         id,
         {
-          organizedBy: organizedBy ? striptags(organizedBy) : industrialTour.organizedBy,
+          organizedBy: organizedBy
+            ? striptags(organizedBy)
+            : industrialTour.organizedBy,
           date: date ? new Date(date) : industrialTour.date,
-          industryName: industryName ? striptags(industryName) : industrialTour.industryName,
+          industryName: industryName
+            ? striptags(industryName)
+            : industrialTour.industryName,
           attendedBy: attendedBy
             ? striptags(attendedBy)
             : industrialTour.attendedBy,
@@ -700,11 +692,7 @@ exports.update_hackathon = expressAsyncHandler(async (req, res) => {
 
     const hackathon = await Hackathon.findById(id);
     if (!hackathon) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "Hackathon not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "Hackathon not found");
     }
 
     if (!loggedInUser) {
@@ -720,7 +708,9 @@ exports.update_hackathon = expressAsyncHandler(async (req, res) => {
         {
           eventName: eventName ? striptags(eventName) : hackathon.eventName,
           date: date ? new Date(date) : hackathon.date,
-          noOfParticipants: noOfParticipants ? striptags(noOfParticipants) : hackathon.noOfParticipants,
+          noOfParticipants: noOfParticipants
+            ? striptags(noOfParticipants)
+            : hackathon.noOfParticipants,
           poc: poc ? striptags(poc) : hackathon.poc,
           obtainedMarks: obtainedMarks
             ? striptags(obtainedMarks)
@@ -734,13 +724,13 @@ exports.update_hackathon = expressAsyncHandler(async (req, res) => {
         "Hackathon updated successfully",
         newHackathon
       );
-  } else {
-    return sendError(
-      res,
-      constants.FORBIDDEN,
-      "User does not have permission to edit"
-    );
-  }
+    } else {
+      return sendError(
+        res,
+        constants.FORBIDDEN,
+        "User does not have permission to edit"
+      );
+    }
   } catch (error) {
     sendServerError(res, error);
   }
@@ -753,11 +743,7 @@ exports.update_consultancy = expressAsyncHandler(async (req, res) => {
 
     const consultancy = await Consultancy.findById(id);
     if (!consultancy) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "Consultancy not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "Consultancy not found");
     }
 
     if (!loggedInUser) {
@@ -765,16 +751,32 @@ exports.update_consultancy = expressAsyncHandler(async (req, res) => {
     }
 
     if (req.user.contentAccess == "edit" || "super") {
-      const { orderNo, companyName, orderAmount, orderReceiveDate, status, poc, obtainedMarks } = req.body;
+      const {
+        orderNo,
+        companyName,
+        orderAmount,
+        orderReceiveDate,
+        status,
+        poc,
+        obtainedMarks,
+      } = req.body;
 
       const newConsultancy = await Consultancy.findByIdAndUpdate(
         id,
         {
           orderNo: orderNo ? striptags(orderNo) : consultancy.orderNo,
-          facultyName: facultyName ? striptags(facultyName) : consultancy.facultyName,
-          companyName: companyName ? striptags(companyName) : consultancy.companyName,
-          orderAmount: orderAmount ? striptags(orderAmount) : consultancy.orderAmount,
-          orderReceiveDate: orderReceiveDate ? new Date(orderReceiveDate) : consultancy.orderReceiveDate,
+          facultyName: facultyName
+            ? striptags(facultyName)
+            : consultancy.facultyName,
+          companyName: companyName
+            ? striptags(companyName)
+            : consultancy.companyName,
+          orderAmount: orderAmount
+            ? striptags(orderAmount)
+            : consultancy.orderAmount,
+          orderReceiveDate: orderReceiveDate
+            ? new Date(orderReceiveDate)
+            : consultancy.orderReceiveDate,
           status: status ? striptags(status) : consultancy.status,
           poc: poc ? striptags(poc) : consultancy.poc,
           obtainedMarks: obtainedMarks
@@ -789,13 +791,13 @@ exports.update_consultancy = expressAsyncHandler(async (req, res) => {
         "Consultancy updated successfully",
         newConsultancy
       );
-  } else {
-    return sendError(
-      res,
-      constants.FORBIDDEN,
-      "User does not have permission to edit"
-    );
-  }
+    } else {
+      return sendError(
+        res,
+        constants.FORBIDDEN,
+        "User does not have permission to edit"
+      );
+    }
   } catch (error) {
     sendServerError(res, error);
   }
@@ -808,11 +810,7 @@ exports.update_moocs = expressAsyncHandler(async (req, res) => {
 
     const moocs = await MOOCS.findById(id);
     if (!moocs) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "MOOCS not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "MOOCS not found");
     }
 
     if (!loggedInUser) {
@@ -820,14 +818,30 @@ exports.update_moocs = expressAsyncHandler(async (req, res) => {
     }
 
     if (req.user.contentAccess == "edit" || "super") {
-      const { facultyName, moduleName, platformUsed, dateOfLaunching, documentLink, eContent, mediaLink, poc, obtainedMarks } = req.body;
+      const {
+        facultyName,
+        moduleName,
+        platformUsed,
+        dateOfLaunching,
+        documentLink,
+        eContent,
+        mediaLink,
+        poc,
+        obtainedMarks,
+      } = req.body;
 
       const newMOOCS = new MOOCS({
         facultyName: facultyName ? striptags(facultyName) : moocs.facultyName,
         moduleName: moduleName ? striptags(moduleName) : moocs.moduleName,
-        platformUsed: platformUsed ? striptags(platformUsed) : moocs.platformUsed,
-        dateOfLaunching: dateOfLaunching ? new Date(dateOfLaunching) : moocs.dateOfLaunching,
-        documentLink: documentLink ? striptags(documentLink) : moocs.documentLink,
+        platformUsed: platformUsed
+          ? striptags(platformUsed)
+          : moocs.platformUsed,
+        dateOfLaunching: dateOfLaunching
+          ? new Date(dateOfLaunching)
+          : moocs.dateOfLaunching,
+        documentLink: documentLink
+          ? striptags(documentLink)
+          : moocs.documentLink,
         eContent: eContent ? striptags(eContent) : moocs.eContent,
         mediaLink: mediaLink ? striptags(mediaLink) : moocs.mediaLink,
         poc: poc ? striptags(poc) : moocs,
@@ -841,13 +855,13 @@ exports.update_moocs = expressAsyncHandler(async (req, res) => {
         "MOOCS updated successfully",
         newMOOCS
       );
-  } else {
-    return sendError(
-      res,
-      constants.FORBIDDEN,
-      "User does not have permission to edit"
-    );
-  }
+    } else {
+      return sendError(
+        res,
+        constants.FORBIDDEN,
+        "User does not have permission to edit"
+      );
+    }
   } catch (error) {
     sendServerError(res, error);
   }
@@ -860,11 +874,7 @@ exports.update_triMentoring = expressAsyncHandler(async (req, res) => {
 
     const triMentoring = await TriMentoring.findById(id);
     if (!triMentoring) {
-      return sendError(
-        res,
-        constants.NOT_FOUND,
-        "Tri-mentoring not found"
-      );
+      return sendError(res, constants.NOT_FOUND, "Tri-mentoring not found");
     }
 
     if (!loggedInUser) {
@@ -872,15 +882,20 @@ exports.update_triMentoring = expressAsyncHandler(async (req, res) => {
     }
 
     if (req.user.contentAccess == "edit" || "super") {
-      const { organizedBy, date, takenBy, attendedBy, poc, obtainedMarks } = req.body;
+      const { organizedBy, date, takenBy, attendedBy, poc, obtainedMarks } =
+        req.body;
 
       const newMentoring = await TriMentoring.findByIdAndUpdate(
         id,
         {
-          organizedBy: organizedBy ? striptags(organizedBy) : triMentoring.organizingBy,
+          organizedBy: organizedBy
+            ? striptags(organizedBy)
+            : triMentoring.organizingBy,
           date: date ? new Date(date) : triMentoring.date,
           takenBy: takenBy ? striptags(takenBy) : triMentoring.takenBy,
-          attendedBy: attendedBy ? striptags(attendedBy) : triMentoring.attendedBy,
+          attendedBy: attendedBy
+            ? striptags(attendedBy)
+            : triMentoring.attendedBy,
           poc: poc ? striptags(poc) : triMentoring.poc,
           obtainedMarks: obtainedMarks
             ? striptags(obtainedMarks)
@@ -894,13 +909,13 @@ exports.update_triMentoring = expressAsyncHandler(async (req, res) => {
         "Tri-mentoring updated successfully",
         newMentoring
       );
-  } else {
-    return sendError(
-      res,
-      constants.FORBIDDEN,
-      "User does not have permission to edit"
-    );
-  }
+    } else {
+      return sendError(
+        res,
+        constants.FORBIDDEN,
+        "User does not have permission to edit"
+      );
+    }
   } catch (error) {
     sendServerError(res, error);
   }

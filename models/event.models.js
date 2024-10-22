@@ -17,6 +17,15 @@ const event = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  hasContentAccess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  department: {
+    type: String,
+  },
 });
 
 const Event = mongoose.model("event", event);

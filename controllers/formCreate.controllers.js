@@ -58,6 +58,7 @@ exports.create_projectProposal = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newProject.save();
 
@@ -102,6 +103,7 @@ exports.create_bookPublished = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newBook.save();
 
@@ -154,6 +156,7 @@ exports.create_researchPaper = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newPaper.save();
 
@@ -192,6 +195,7 @@ exports.create_patentFilled = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newPatent.save();
 
@@ -221,6 +225,7 @@ exports.create_mdpAttended = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newEvent.save();
 
@@ -249,6 +254,7 @@ exports.create_mdpConducted = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newEvent.save();
 
@@ -276,6 +282,7 @@ exports.create_competitionOrganised = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newCompetition.save();
 
@@ -316,6 +323,7 @@ exports.create_event = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newEvent.save();
 
@@ -344,6 +352,7 @@ exports.create_lecture = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newLecture.save();
 
@@ -372,6 +381,7 @@ exports.create_industrialTour = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newTour.save();
 
@@ -401,6 +411,7 @@ exports.create_hackathon = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newHackathon.save();
 
@@ -441,6 +452,7 @@ exports.create_consultancy = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newConsultancy.save();
 
@@ -481,6 +493,7 @@ exports.create_moocs = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newMOOCS.save();
 
@@ -498,13 +511,7 @@ exports.create_triMentoring = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    const {
-      organizedBy,
-      date,
-      takenBy,
-      attendedBy,
-      poc,
-    } = req.body;
+    const { organizedBy, date, takenBy, attendedBy, poc } = req.body;
 
     const newMentoring = new TriMentoring({
       organizedBy: organizedBy ? striptags(organizedBy) : undefined,
@@ -515,6 +522,7 @@ exports.create_triMentoring = expressAsyncHandler(async (req, res) => {
       obtainedMarks: 0,
       createdBy: loggedInUser.id,
       isApproved: false,
+      department: loggedInUser.department,
     });
     await newMentoring.save();
 
