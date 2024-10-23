@@ -48,7 +48,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Project proposal approved successfully"
+          "Project proposal access granted"
         );
       } else {
         return sendError(
@@ -84,7 +84,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Book published approved successfully"
+          "Book published access granted"
         );
       } else {
         return sendError(
@@ -120,7 +120,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Research paper approved successfully"
+          "Research paper access granted"
         );
       } else {
         return sendError(
@@ -156,7 +156,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Patent filled approved successfully"
+          "Patent filled access granted"
         );
       } else {
         return sendError(
@@ -192,7 +192,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "MDP Attended approved successfully"
+          "MDP Attended access granted"
         );
       } else {
         return sendError(
@@ -228,7 +228,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "MDP Conducted approved successfully"
+          "MDP Conducted access granted"
         );
       } else {
         return sendError(
@@ -268,7 +268,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Competition Organised approved successfully"
+          "Competition Organised access granted"
         );
       } else {
         return sendError(
@@ -301,7 +301,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         event.hasContentAccess = userid;
         await event.save({new: true});
   
-        return sendSuccess(res, constants.OK, "Event approved successfully");
+        return sendSuccess(res, constants.OK, "Event access granted");
       } else {
         return sendError(
           res,
@@ -333,7 +333,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         lecture.hasContentAccess = userid;
         await lecture.save({new: true});
   
-        return sendSuccess(res, constants.OK, "Lecture approved successfully");
+        return sendSuccess(res, constants.OK, "Lecture access granted");
       } else {
         return sendError(
           res,
@@ -368,7 +368,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Industrial tour approved successfully"
+          "Industrial tour access granted"
         );
       } else {
         return sendError(
@@ -401,7 +401,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         hackathon.hasContentAccess = userid;
         await hackathon.save({new: true});
   
-        return sendSuccess(res, constants.OK, "Hackathon approved successfully");
+        return sendSuccess(res, constants.OK, "Hackathon access granted");
       } else {
         return sendError(
           res,
@@ -436,7 +436,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Consultancy approved successfully"
+          "Consultancy access granted"
         );
       } else {
         return sendError(
@@ -469,7 +469,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         moocs.hasContentAccess = userid;
         await moocs.save({new: true});
   
-        return sendSuccess(res, constants.OK, "MOOC approved successfully");
+        return sendSuccess(res, constants.OK, "MOOC access granted");
       } else {
         return sendError(
           res,
@@ -508,7 +508,7 @@ exports.access_projectProposal = expressAsyncHandler(async (req, res) => {
         return sendSuccess(
           res,
           constants.OK,
-          "Tri mentoring approved successfully"
+          "Tri mentoring access granted"
         );
       } else {
         return sendError(

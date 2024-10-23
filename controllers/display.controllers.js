@@ -29,149 +29,95 @@ exports.display = expressAsyncHandler(async (req, res) => {
     if (!loggedInUser) {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
-    if(loggedInUser.contentAccess == "none"){
+
+    if (loggedInUser.contentAccess === "none") {
       const resultArray = [];
 
-        const resultProjectProposal = await ProjectProposal.find({ createdBy: loggedInUser._id });
-        resultArray.push({ type: "ProjectProposal", data: resultProjectProposal });
+      const models = [
+        { model: ProjectProposal, type: "ProjectProposal" },
+        { model: BookPublished, type: "BookPublished" },
+        { model: ResearchPaper, type: "ResearchPaper" },
+        { model: PatentFilled, type: "PatentFilled" },
+        { model: MDPAttended, type: "MDPAttended" },
+        { model: MDPConducted, type: "MDPConducted" },
+        { model: CompetitionOrganised, type: "CompetitionOrganised" },
+        { model: Event, type: "Event" },
+        { model: Lecture, type: "Lecture" },
+        { model: IndustrialTour, type: "IndustrialTour" },
+        { model: Hackathon, type: "Hackathon" },
+        { model: Consultancy, type: "Consultancy" },
+        { model: MOOCS, type: "MOOCS" },
+        { model: TriMentoring, type: "TriMentoring" },
+      ];
 
-        const resultBookPublished = await BookPublished.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "BookPublished", data: resultBookPublished });
+      for (const { model, type } of models) {
+        const result = await model.find({ createdBy: loggedInUser._id });
+        resultArray.push({ type, data: result });
+      }
 
-    const resultResearchPaper = await ResearchPaper.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "ResearchPaper", data: resultResearchPaper });
-
-    const resultPatentFilled = await PatentFilled.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "PatentFilled", data: resultPatentFilled });
-
-    const resultMDPAttended = await MDPAttended.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "MDPAttended", data: resultMDPAttended });
-
-    const resultMDPConducted = await MDPConducted.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "MDPConducted", data: resultMDPConducted });
-
-    const resultCompetitionOrganised = await CompetitionOrganised.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "CompetitionOrganised", data: resultCompetitionOrganised });
-
-    const resultEvent = await Event.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "Event", data: resultEvent });
-
-    const resultLecture = await Lecture.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "Lecture", data: resultLecture });
-
-    const resultIndustrialTour = await IndustrialTour.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "IndustrialTour", data: resultIndustrialTour });
-
-    const resultHackathon = await Hackathon.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "Hackathon", data: resultHackathon });
-
-    const resultConsultancy = await Consultancy.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "Consultancy", data: resultConsultancy });
-
-    const resultMOOCS = await MOOCS.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "MOOCS", data: resultMOOCS });
-
-    const resultTriMentoring = await TriMentoring.find({ createdBy: loggedInUser.id });
-    resultArray.push({ type: "TriMentoring", data: resultTriMentoring });
-
-        sendSuccess(res, constants.OK, "Data fetched successfully", resultArray)
-
-    }else if(loggedInUser.contentAccess == "view" || "edit"){
+      sendSuccess(res, constants.OK, "Data fetched successfully", resultArray);
+    } else if (loggedInUser.contentAccess === ("view" || "edit")) {
       const resultArray = [];
 
-        const resultProjectProposal = await ProjectProposal.find({ department: loggedInUser.department });
-        resultArray.push({ type: "ProjectProposal", data: resultProjectProposal });
+      const models = [
+        { model: ProjectProposal, type: "ProjectProposal" },
+        { model: BookPublished, type: "BookPublished" },
+        { model: ResearchPaper, type: "ResearchedPaper" },
+        { model: PatentFilled, type: "PatentFilled" },
+        { model: MDPAttended, type: "MDPAttended" },
+        { model: MDPConducted, type: "MDPConducted" },
+        { model: CompetitionOrganised, type: "CompetitionOrganised" },
+        { model: Event, type: "Event" },
+        { model: Lecture, type: "Lecture" },
+        { model: IndustrialTour, type: "IndustrialTour" },
+        { model: Hackathon, type: "Hackathon" },
+        { model: Consultancy, type: "Consultancy" },
+        { model: MOOCS, type: "MOOCS" },
+        { model: TriMentoring, type: "TriMentoring" },
+      ];
 
-        const resultBookPublished = await BookPublished.find({ department: loggedInUser.department });
-        resultArray.push({ type: "BookPublished", data: resultBookPublished });
+      for (const { model, type } of models) {
+        const result = await model.find().populate({
+          path: "createdBy",
+          select: "department",
+        });
+        const filtered = result.filter(
+          (proposal) =>
+            proposal.createdBy &&
+            proposal.createdBy.department === loggedInUser.department
+        );
+        resultArray.push({ type, data: filtered });
+      }
 
-        const resultResearchPaper = await ResearchPaper.find({ department: loggedInUser.department });
-        resultArray.push({ type: "ResearchPaper", data: resultResearchPaper });
-
-        const resultPatentFilled = await PatentFilled.find({ department: loggedInUser.department });
-        resultArray.push({ type: "PatentFilled", data: resultPatentFilled });
-
-        const resultMDPAttended = await MDPAttended.find({ department: loggedInUser.department });
-        resultArray.push({ type: "MDPAttended", data: resultMDPAttended });
-
-        const resultMDPConducted = await MDPConducted.find({ department: loggedInUser.department });
-        resultArray.push({ type: "MDPConducted", data: resultMDPConducted });
-
-        const resultCompetitionOrganised = await CompetitionOrganised.find({ department: loggedInUser.department });
-        resultArray.push({ type: "CompetitionOrganised", data: resultCompetitionOrganised });
-
-        const resultEvent = await Event.find({ department: loggedInUser.department });
-        resultArray.push({ type: "Event", data: resultEvent });
-
-        const resultLecture = await Lecture.find({ department: loggedInUser.department });
-        resultArray.push({ type: "Lecture", data: resultLecture });
-
-        const resultIndustrialTour = await IndustrialTour.find({ department: loggedInUser.department });
-        resultArray.push({ type: "IndustrialTour", data: resultIndustrialTour });
-
-        const resultHackathon = await Hackathon.find({ department: loggedInUser.department });
-        resultArray.push({ type: "Hackathon", data: resultHackathon });
-
-        const resultConsultancy = await Consultancy.find({ department: loggedInUser.department });
-        resultArray.push({ type: "Consultancy", data: resultConsultancy });
-
-        const resultMOOCS = await MOOCS.find({ department: loggedInUser.department });
-        resultArray.push({ type: "MOOCS", data: resultMOOCS });
-
-        const resultTriMentoring = await TriMentoring.find({ department: loggedInUser.department });
-        resultArray.push({ type: "TriMentoring", data: resultTriMentoring });
-
-        sendSuccess(res, constants.OK, "Data fetched successfully", resultArray)
-
-    }else if(loggedInUser.contentAccess == "super"){
+      sendSuccess(res, constants.OK, "Data fetched successfully", resultArray);
+    } else if (loggedInUser.contentAccess === "super") {
       const resultArray = [];
 
-        const resultProjectProposal = await ProjectProposal.find();
-        resultArray.push({ type: "ProjectProposal", data: resultProjectProposal });
+      const models = [
+        { model: ProjectProposal, type: "ProjectProposal" },
+        { model: BookPublished, type: "BookPublished" },
+        { model: ResearchPaper, type: "ResearchPaper" },
+        { model: PatentFilled, type: "PatentFilled" },
+        { model: MDPAttended, type: "MDPAttended" },
+        { model: MDPConducted, type: "MDPConducted" },
+        { model: CompetitionOrganised, type: "CompetitionOrganised" },
+        { model: Event, type: "Event" },
+        { model: Lecture, type: "Lecture" },
+        { model: IndustrialTour, type: "IndustrialTour" },
+        { model: Hackathon, type: "Hackathon" },
+        { model: Consultancy, type: "Consultancy" },
+        { model: MOOCS, type: "MOOCS" },
+        { model: TriMentoring, type: "TriMentoring" },
+      ];
 
-        const resultBookPublished = await BookPublished.find();
-        resultArray.push({ type: "BookPublished", data: resultBookPublished });
+      for (const { model, type } of models) {
+        const result = await model.find({ isApproved: true });
+        resultArray.push({ type, data: result });
+      }
 
-        const resultResearchPaper = await ResearchPaper.find();
-        resultArray.push({ type: "ResearchPaper", data: resultResearchPaper });
-
-        const resultPatentFilled = await PatentFilled.find();
-        resultArray.push({ type: "PatentFilled", data: resultPatentFilled });
-
-        const resultMDPAttended = await MDPAttended.find();
-        resultArray.push({ type: "MDPAttended", data: resultMDPAttended });
-
-        const resultMDPConducted = await MDPConducted.find();
-        resultArray.push({ type: "MDPConducted", data: resultMDPConducted });
-
-        const resultCompetitionOrganised = await CompetitionOrganised.find();
-        resultArray.push({ type: "CompetitionOrganised", data: resultCompetitionOrganised });
-
-        const resultEvent = await Event.find();
-        resultArray.push({ type: "Event", data: resultEvent });
-
-        const resultLecture = await Lecture.find();
-        resultArray.push({ type: "Lecture", data: resultLecture });
-
-        const resultIndustrialTour = await IndustrialTour.find();
-        resultArray.push({ type: "IndustrialTour", data: resultIndustrialTour });
-
-        const resultHackathon = await Hackathon.find();
-        resultArray.push({ type: "Hackathon", data: resultHackathon });
-
-        const resultConsultancy = await Consultancy.find();
-        resultArray.push({ type: "Consultancy", data: resultConsultancy });
-
-        const resultMOOCS = await MOOCS.find();
-        resultArray.push({ type: "MOOCS", data: resultMOOCS });
-
-        const resultTriMentoring = await TriMentoring.find();
-        resultArray.push({ type: "TriMentoring", data: resultTriMentoring });
-
-        sendSuccess(res, constants.OK, "Data fetched successfully", resultArray)
-        
-    }else{
-        return sendError(res, constants.UNAUTHORIZED, "User's access failure");
+      sendSuccess(res, constants.OK, "Data fetched successfully", resultArray);
+    } else {
+      return sendError(res, constants.UNAUTHORIZED, "User's access failure");
     }
   } catch (error) {
     return sendServerError(res, error);

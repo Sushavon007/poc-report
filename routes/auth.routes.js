@@ -5,7 +5,7 @@ const { authenticateToken } = require("../middlewares/auth.middlewares.js");
 const router = express.Router();
 
 router.post("/login", login);
-router.post("/addser", addUser);
+router.post("/adduser", addUser);
 router.patch("/forgetpassword", forgetPassword);
 router.patch("/updatepassword", authenticateToken, updatePassword);
 

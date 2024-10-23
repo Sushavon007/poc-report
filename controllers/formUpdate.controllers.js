@@ -37,7 +37,7 @@ exports.update_projectProposal = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess == "edit" || "super") {
+    if (project.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         title,
         nameOfPrinciple,
@@ -114,7 +114,7 @@ exports.update_bookPublished = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (bookPublished.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         name,
         bookName,
@@ -189,7 +189,7 @@ exports.update_researchPaper = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (researchPaper.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         name,
         researchType,
@@ -271,7 +271,7 @@ exports.update_patentFilled = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (patentFilled.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         department,
         name,
@@ -341,7 +341,7 @@ exports.update_mdpAttended = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (mdpAttended.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         organizedBy,
         date,
@@ -409,7 +409,7 @@ exports.update_mdpConducted = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (mdpConducted.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const { date, department, topic, conductedBy, poc, obtainedMarks } =
         req.body;
 
@@ -467,7 +467,7 @@ exports.update_competitionOrganised = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (competitionOrganised.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         eventDate,
         competitionType,
@@ -527,7 +527,7 @@ exports.update_event = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (event.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         organizingInstitute,
         topic,
@@ -589,7 +589,7 @@ exports.update_lecture = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (lecture.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const { name, date, topic, poc, obtainedMarks } = req.body;
 
       const newLecture = await Lecture.findByIdAndUpdate(
@@ -637,7 +637,7 @@ exports.update_industrialTour = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (industrialTour.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         organizedBy,
         date,
@@ -699,7 +699,7 @@ exports.update_hackathon = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (hackathon.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const { eventName, date, noOfParticipants, poc, obtainedMarks } =
         req.body;
 
@@ -750,7 +750,7 @@ exports.update_consultancy = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (consultancy.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         orderNo,
         companyName,
@@ -817,7 +817,7 @@ exports.update_moocs = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (moocs.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const {
         facultyName,
         moduleName,
@@ -881,7 +881,7 @@ exports.update_triMentoring = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (req.user.contentAccess == "edit" || "super") {
+    if (triMentoring.hasContentAccess.includes(loggedInUser._id) || loggedInUser.contentAccess == "super") {
       const { organizedBy, date, takenBy, attendedBy, poc, obtainedMarks } =
         req.body;
 
