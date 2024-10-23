@@ -1,5 +1,4 @@
 const expressAsyncHandler = require("express-async-handler");
-const striptags = require("striptags");
 const constants = require("../utils/constants.utils");
 const user = require("../models/user.models.js");
 const {

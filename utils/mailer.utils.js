@@ -1,11 +1,11 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: process.env.MAILHOST ,
-  port: process.env.MAILPORT ,
+  host: process.env.MAILHOST,
+  port: process.env.MAILPORT,
   auth: {
-    user: process.env.ADMINMAIL ,
-    pass: process.env.ADMINPASS ,
+    user: process.env.ADMINMAIL,
+    pass: process.env.ADMINPASS,
   },
 });
 
@@ -37,5 +37,17 @@ function generateAccountCreationMessage(name, email, password) {
   return { message, messageHTML };
 }
 
-module.exports = { sendEmail, generateAccountCreationMessage };
+function generateApproveMessage(formName, id, userid, role) {
+  const subject = `${formName} Approved`
+  const message = `The form '${formName}' with ID: ${id} has been approved by: ${role} with ID: ${userid}.`;
+  const messageHTML = `
+    <p>The form <strong>${formName}</strong> with ID: <strong>${id}</strong> has been approved by: <strong>${role}</strong> with ID: <strong>${userid}</strong>.</p>
+  `;
+  return {subject, message, messageHTML };
+}
 
+module.exports = {
+  sendEmail,
+  generateAccountCreationMessage,
+  generateApproveMessage,
+};
