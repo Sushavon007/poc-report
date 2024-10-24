@@ -39,7 +39,7 @@ function generateAccountCreationMessage(name, email, password) {
 
 function generateApproveMessage(formName, id, userid, role) {
   const subject = `${formName} Approved`
-  const message = `The form '${formName}' with ID: ${id} has been approved by: ${role} with ID: ${userid}.`;
+  const message = `The form '${formName}' with ID: ${id} has been approved by: ${role} with email Id: ${userid}.`;
   const messageHTML = `
     <p>The form <strong>${formName}</strong> with ID: <strong>${id}</strong> has been approved by: <strong>${role}</strong> with ID: <strong>${userid}</strong>.</p>
   `;

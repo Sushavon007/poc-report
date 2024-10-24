@@ -46,7 +46,7 @@ exports.approve_projectProposal = expressAsyncHandler(async (req, res) => {
       projectProposal.isApproved = true;
       await projectProposal.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Project Proposal", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Project Proposal", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -85,7 +85,7 @@ exports.approve_bookPublished = expressAsyncHandler(async (req, res) => {
       bookPublished.isApproved = true;
       await bookPublished.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Book Published", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Book Published", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -124,7 +124,7 @@ exports.approve_researchPaper = expressAsyncHandler(async (req, res) => {
       researchPaper.isApproved = true;
       await researchPaper.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Research Paper Published", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Research Paper Published", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -163,7 +163,7 @@ exports.approve_patentFilled = expressAsyncHandler(async (req, res) => {
       patentFilled.isApproved = true;
       await patentFilled.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Patent Filled", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Patent Filled", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -202,7 +202,7 @@ exports.approve_mdpAttended = expressAsyncHandler(async (req, res) => {
       mdpAttended.isApproved = true;
       await mdpAttended.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Faculty Development Program", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Faculty Development Program", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -241,7 +241,7 @@ exports.approve_mdpConducted = expressAsyncHandler(async (req, res) => {
       mdpConducted.isApproved = true;
       await mdpConducted.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Faculty Development Program", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Faculty Development Program", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -284,7 +284,7 @@ exports.approve_competitionOrganised = expressAsyncHandler(async (req, res) => {
       competitionOrganised.isApproved = true;
       await competitionOrganised.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Competition Organised", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Competition Organised", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -323,7 +323,7 @@ exports.approve_event = expressAsyncHandler(async (req, res) => {
       event.isApproved = true;
       await event.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Event Organised", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Event Organised", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(res, constants.OK, "Event approved successfully");
@@ -358,7 +358,7 @@ exports.approve_lecture = expressAsyncHandler(async (req, res) => {
       lecture.isApproved = true;
       await lecture.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Lecture", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Lecture", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(res, constants.OK, "Lecture approved successfully");
@@ -393,7 +393,7 @@ exports.approve_industrialTour = expressAsyncHandler(async (req, res) => {
       industrialTour.isApproved = true;
       await industrialTour.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Industrial Tour", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Industrial Tour", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -432,7 +432,7 @@ exports.approve_hackathon = expressAsyncHandler(async (req, res) => {
       hackathon.isApproved = true;
       await hackathon.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Hackathon", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Hackathon", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(res, constants.OK, "Hackathon approved successfully");
@@ -467,7 +467,7 @@ exports.approve_consultancy = expressAsyncHandler(async (req, res) => {
       consultancy.isApproved = true;
       await consultancy.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Consultancy", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Consultancy", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(
@@ -506,7 +506,7 @@ exports.approve_moocs = expressAsyncHandler(async (req, res) => {
       moocs.isApproved = true;
       await moocs.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("MOOCS", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("MOOCS", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(res, constants.OK, "MOOC approved successfully");
@@ -545,7 +545,7 @@ exports.approve_triMentoring = expressAsyncHandler(async (req, res) => {
       triMentoring.isApproved = true;
       await triMentoring.save();
 
-      const { subject, message, messageHTML } = generateApproveMessage("Tri-Mentoring Program", id, loggedInUser._id, loggedInUser.role);
+      const { subject, message, messageHTML } = generateApproveMessage("Tri-Mentoring Program", id, loggedInUser.userEmail, loggedInUser.role);
       sendEmail(process.env.SUPER_MAIL, subject, message, messageHTML);
 
       return sendSuccess(

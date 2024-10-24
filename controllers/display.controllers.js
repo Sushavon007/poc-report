@@ -1,9 +1,5 @@
 const constants = require("../utils/constants.utils.js");
-const {
-  sendSuccess,
-  sendError,
-  sendServerError,
-} = require("../utils/response.utils.js");
+const { sendError, sendServerError } = require("../utils/response.utils.js");
 const expressAsyncHandler = require("express-async-handler");
 
 const user = require("../models/user.models.js");
@@ -30,95 +26,60 @@ exports.display = expressAsyncHandler(async (req, res) => {
       return sendError(res, constants.NOT_FOUND, "User not logged in");
     }
 
-    if (loggedInUser.contentAccess === "none") {
-      const resultArray = [];
+    res.set("Content-Type", "application/json");
+    res.set("Transfer-Encoding", "chunked");
 
-      const models = [
-        { model: ProjectProposal, type: "ProjectProposal" },
-        { model: BookPublished, type: "BookPublished" },
-        { model: ResearchPaper, type: "ResearchPaper" },
-        { model: PatentFilled, type: "PatentFilled" },
-        { model: MDPAttended, type: "MDPAttended" },
-        { model: MDPConducted, type: "MDPConducted" },
-        { model: CompetitionOrganised, type: "CompetitionOrganised" },
-        { model: Event, type: "Event" },
-        { model: Lecture, type: "Lecture" },
-        { model: IndustrialTour, type: "IndustrialTour" },
-        { model: Hackathon, type: "Hackathon" },
-        { model: Consultancy, type: "Consultancy" },
-        { model: MOOCS, type: "MOOCS" },
-        { model: TriMentoring, type: "TriMentoring" },
-      ];
+    res.write('{"message": "Data fetched successfully", "data": [');
 
-      for (const { model, type } of models) {
-        const result = await model.find({ createdBy: loggedInUser._id });
-        resultArray.push({ type, data: result });
-      }
+    const models = [
+      { model: ProjectProposal, type: "ProjectProposal" },
+      { model: BookPublished, type: "BookPublished" },
+      { model: ResearchPaper, type: "ResearchPaper" },
+      { model: PatentFilled, type: "PatentFilled" },
+      { model: MDPAttended, type: "MDPAttended" },
+      { model: MDPConducted, type: "MDPConducted" },
+      { model: CompetitionOrganised, type: "CompetitionOrganised" },
+      { model: Event, type: "Event" },
+      { model: Lecture, type: "Lecture" },
+      { model: IndustrialTour, type: "IndustrialTour" },
+      { model: Hackathon, type: "Hackathon" },
+      { model: Consultancy, type: "Consultancy" },
+      { model: MOOCS, type: "MOOCS" },
+      { model: TriMentoring, type: "TriMentoring" },
+    ];
 
-      sendSuccess(res, constants.OK, "Data fetched successfully", resultArray);
-    } else if (loggedInUser.contentAccess === ("view" || "edit")) {
-      const resultArray = [];
+    let firstChunk = true;
 
-      const models = [
-        { model: ProjectProposal, type: "ProjectProposal" },
-        { model: BookPublished, type: "BookPublished" },
-        { model: ResearchPaper, type: "ResearchedPaper" },
-        { model: PatentFilled, type: "PatentFilled" },
-        { model: MDPAttended, type: "MDPAttended" },
-        { model: MDPConducted, type: "MDPConducted" },
-        { model: CompetitionOrganised, type: "CompetitionOrganised" },
-        { model: Event, type: "Event" },
-        { model: Lecture, type: "Lecture" },
-        { model: IndustrialTour, type: "IndustrialTour" },
-        { model: Hackathon, type: "Hackathon" },
-        { model: Consultancy, type: "Consultancy" },
-        { model: MOOCS, type: "MOOCS" },
-        { model: TriMentoring, type: "TriMentoring" },
-      ];
-
-      for (const { model, type } of models) {
-        const result = await model.find().populate({
+    for (const { model, type } of models) {
+      let query;
+      if (loggedInUser.contentAccess === "none") {
+        query = model.find({ createdBy: loggedInUser._id });
+      } else if (loggedInUser.contentAccess === "super") {
+        query = model.find({ isApproved: true });
+      } else if (loggedInUser.contentAccess === ("view" || "edit")) {
+        query = model.find().populate({
           path: "createdBy",
           select: "department",
         });
-        const filtered = result.filter(
-          (proposal) =>
-            proposal.createdBy &&
-            proposal.createdBy.department === loggedInUser.department
-        );
-        resultArray.push({ type, data: filtered });
+      } else {
+        return sendError(res, constants.UNAUTHORIZED, "User's access failure");
       }
 
-      sendSuccess(res, constants.OK, "Data fetched successfully", resultArray);
-    } else if (loggedInUser.contentAccess === "super") {
-      const resultArray = [];
+      const cursor = await query.cursor();
 
-      const models = [
-        { model: ProjectProposal, type: "ProjectProposal" },
-        { model: BookPublished, type: "BookPublished" },
-        { model: ResearchPaper, type: "ResearchPaper" },
-        { model: PatentFilled, type: "PatentFilled" },
-        { model: MDPAttended, type: "MDPAttended" },
-        { model: MDPConducted, type: "MDPConducted" },
-        { model: CompetitionOrganised, type: "CompetitionOrganised" },
-        { model: Event, type: "Event" },
-        { model: Lecture, type: "Lecture" },
-        { model: IndustrialTour, type: "IndustrialTour" },
-        { model: Hackathon, type: "Hackathon" },
-        { model: Consultancy, type: "Consultancy" },
-        { model: MOOCS, type: "MOOCS" },
-        { model: TriMentoring, type: "TriMentoring" },
-      ];
+      cursor.on("data", (doc) => {
+        if (!firstChunk) res.write(",");
+        else firstChunk = false;
 
-      for (const { model, type } of models) {
-        const result = await model.find({ isApproved: true });
-        resultArray.push({ type, data: result });
-      }
+        res.write(JSON.stringify({ type, data: doc }));
+      });
 
-      sendSuccess(res, constants.OK, "Data fetched successfully", resultArray);
-    } else {
-      return sendError(res, constants.UNAUTHORIZED, "User's access failure");
+      await new Promise((resolve) => cursor.on("end", resolve));
     }
+
+    res.write("]}");
+    res.end();
+    
   } catch (error) {
     return sendServerError(res, error);
   }

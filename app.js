@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const status = require("express-status-monitor");
 const auth = require("./routes/auth.routes");
 const formCreate = require("./routes//formCreate.routes");
 const formUpdate = require("./routes/formUpdate.routes");
@@ -15,6 +16,7 @@ require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(helmet());
+app.use(status());
 app.use(morgan("dev"));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
